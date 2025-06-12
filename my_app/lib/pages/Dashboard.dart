@@ -11,13 +11,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MenuPage(),
+      home: Dashboard(),
     );
   }
 }
 
-class MenuPage extends StatelessWidget {
-  const MenuPage({super.key});
+class Dashboard extends StatelessWidget {
+  const Dashboard({super.key});
 
   final List<Map<String, String>> slideshowCards = const [
     {
