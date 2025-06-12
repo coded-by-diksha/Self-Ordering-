@@ -25,6 +25,10 @@ dependencies:
   
   
 
+  
+  
+  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -34,12 +38,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-<<<<<<< HEAD:pubspec.yaml
-  # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/logo.png
-    
-=======
   
 
   # To add assets to your application, add an assets section, like this:
@@ -57,7 +55,6 @@ flutter:
 
    
     
->>>>>>> 0bf0a24289786e9b5bf5e970cdae455522e9c6e1:my_app/pubspec.yaml
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

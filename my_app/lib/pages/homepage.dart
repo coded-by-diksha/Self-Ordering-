@@ -257,6 +257,7 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 import 'package:flutter/foundation.dart';
+import 'package:my_app/pages/Dashboard.dart';
 import 'helper/convertYUV420ToNV21.dart';
 
 import 'package:camera/camera.dart';
@@ -597,7 +598,14 @@ class _QRScannerScreenState extends State<QRScannerScreen>
                                     vertical: 12, horizontal: 30),
                               ),
                               onPressed: () {
-                                // Handle proceed
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Dashboard(
+                                      
+                                    ),
+                                  ),
+                                );
                               },
                               child: const Text("Proceed"),
                             ),

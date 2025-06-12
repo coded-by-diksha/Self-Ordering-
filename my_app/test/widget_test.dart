@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-<<<<<<< HEAD:test/widget_test.dart
 import 'package:my_app/pages/homepage.dart';
-=======
-
-import 'package:my_app/pages/Dashboard.dart';
->>>>>>> 0bf0a24289786e9b5bf5e970cdae455522e9c6e1:my_app/test/widget_test.dart
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
