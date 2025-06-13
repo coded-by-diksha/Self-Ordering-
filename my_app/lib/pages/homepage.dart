@@ -308,6 +308,26 @@ class _QRScannerScreenState extends State<QRScannerScreen>
   late Animation<double> _animation;
 
   @override
+void deactivate() {
+  // Called when the widget is removed from the widget tree temporarily.
+  // Stop the camera stream to release resources.
+  controller?.stopImageStream();
+  controller?.dispose();
+  controller = null;
+  super.deactivate();
+}
+
+@override
+void activate() {
+  // Called when the widget is re-inserted into the widget tree.
+  // Re-initialize the camera if needed.
+  super.activate();
+  if (controller == null) {
+    _initializeCamera();
+  }
+}
+
+  @override
   void initState() {
     super.initState();
     barcodeScanner = BarcodeScanner(formats: [BarcodeFormat.qrCode]);
@@ -598,6 +618,7 @@ class _QRScannerScreenState extends State<QRScannerScreen>
                                     vertical: 12, horizontal: 30),
                               ),
                               onPressed: () {
+                                deactivate();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

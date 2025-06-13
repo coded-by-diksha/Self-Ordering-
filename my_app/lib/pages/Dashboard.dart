@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:my_app/pages/CartPage.dart';
 import 'package:my_app/pages/MenuCatPage.dart';
 
 void main() {
@@ -101,6 +102,8 @@ class Dashboard extends StatelessWidget {
                       ),
                     ),
                   ),
+
+
                   const SizedBox(width: 12),
                   IconButton(
                     icon: const Icon(Icons.notifications),
@@ -108,7 +111,15 @@ class Dashboard extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.shopping_cart),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CartPage(),
+                        ),
+                      );
+
+                    },
                   ),
                 ],
               ),

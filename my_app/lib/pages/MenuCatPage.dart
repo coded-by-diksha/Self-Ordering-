@@ -20,10 +20,13 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   final List<Map<String, dynamic>> menuItems = [
-    {"name": "Bacon Burger", "category": "Burgers", "price": 150, "discount": 40, "isBestseller": true, "imageUrl": "https://via.placeholder.com/50?text=Bacon+Burger"},
-    {"name": "Grilled Chicken", "category": "Salads", "price": 150, "discount": 40, "isBestseller": true, "imageUrl": "https://via.placeholder.com/50?text=Grilled+Chicken"},
+    {"name": "Bacon Burger", "description":"Extremely tasty", "category": "Burgers", "price": 150, "discount": 40, "isBestseller": true, "imageUrl": "https://appetizing-cactus-7139e93734.media.strapiapp.com/Avocado_Bacon_Barbecue_Burger_6395900f58.jpeg"},
+    {"name": "Grilled Chicken", "description":"This might contain some ingrediants if required", "category": "Salads", "price": 150, "discount": 40, "isBestseller": true, "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_7mct1A792qL8zopviKQXLsZdtNxOf28HFw&s"},
   ];
+  //adding the quantity option in it 
+  int quantity = 0; // Default quantity
 
+  // Add more items as needed
   List<Map<String, dynamic>> filteredItems = [];
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -31,7 +34,7 @@ class _MenuPageState extends State<MenuPage> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _discountController = TextEditingController();
   final TextEditingController _imageUrlController = TextEditingController();
-
+  final TextEditingController _descriptionController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -80,6 +83,10 @@ class _MenuPageState extends State<MenuPage> {
                 controller: _imageUrlController,
                 decoration: InputDecoration(labelText: "Image URL"),
               ),
+              TextField(
+                controller: _descriptionController,
+                decoration: InputDecoration(labelText: "Description"),
+              ),
             ],
           ),
         ),
@@ -93,11 +100,14 @@ class _MenuPageState extends State<MenuPage> {
               if (_nameController.text.isNotEmpty &&
                   _categoryController.text.isNotEmpty &&
                   _priceController.text.isNotEmpty &&
-                  _discountController.text.isNotEmpty &&
-                  _imageUrlController.text.isNotEmpty) {
+                  _imageUrlController.text.isNotEmpty &&
+                  _descriptionController.text.isNotEmpty
+                  
+                  ) {
                 setState(() {
                   menuItems.add({
                     "name": _nameController.text,
+                    "description": _descriptionController.text,
                     "category": _categoryController.text,
                     "price": int.parse(_priceController.text),
                     "discount": int.parse(_discountController.text),
@@ -112,6 +122,7 @@ class _MenuPageState extends State<MenuPage> {
                 _discountController.clear();
                 _imageUrlController.clear();
                 Navigator.pop(context);
+                print("Product added: ${_imageUrlController.text}");
               }
             },
             child: Text("Add"),
@@ -144,7 +155,8 @@ class _MenuPageState extends State<MenuPage> {
           ),
         ],
       ),
-      body: Column(
+      body:
+       Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -159,40 +171,468 @@ class _MenuPageState extends State<MenuPage> {
               ),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredItems.length,
-              itemBuilder: (context, index) {
-                final item = filteredItems[index];
-                return Card(
-                  margin: EdgeInsets.all(8.0),
-                  child: ListTile(
-                    leading: Image.network(
-                      item["imageUrl"],
-                      width: 50,
-                      height: 50,
-                      errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+          
+          
+
+         Expanded(
+          child: Stack(
+            children: [
+              GridView.builder(
+                padding: EdgeInsets.all(8.0),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.75,
+                  crossAxisSpacing: 8.0,
+                  mainAxisSpacing: 8.0,
+                ),
+                itemCount: filteredItems.length,
+                itemBuilder: (context, index) {
+                  final item = filteredItems[index];
+
+
+          // Category filter bar below the search bar
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  // "All" button
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.blue,
                     ),
-                    title: Text(item["name"]),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Category: ${item["category"]}"),
-                        Text("₹${item["price"]} ${item["discount"]}% off"),
-                      ],
-                    ),
-                    trailing: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("ADD"),
-                    ),
-                    isThreeLine: true,
+                    onPressed: () {
+                      setState(() {
+                        filteredItems = menuItems;
+                        _searchController.clear();
+                      });
+                    },
+                    child: Text("All"),
                   ),
-                );
-              },
+                  SizedBox(width: 8),
+                  // Category buttons
+                  ...menuItems
+                      .map((item) => item["category"])
+                      .toSet()
+                      .map((category) => Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.blueGrey,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  filteredItems = menuItems
+                                      .where((item) => item["category"] == category)
+                                      .toList();
+                                  _searchController.clear();
+                                });
+                              },
+                              child: Text(category),
+                            ),
+                          ))
+                      .toList(),
+                ],
+              ),
             ),
+          );
+                  return Stack(
+                    children: [
+                      Card(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (item["discount"] > 0)
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Container(
+                                  width: 48,
+                                  height: 24,
+                                  margin: EdgeInsets.only(top: 8, right: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.green,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "${item["discount"]}% off",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.network(
+                                item["imageUrl"],
+                                width: 150,
+                                height: 130,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(item["name"],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      )),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    "Description: ${item["description"]}",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      Text("Price: "),
+                                      Text(
+                                        "₹${item["price"]}",
+                                        style: TextStyle(
+                                          decoration: TextDecoration.lineThrough,
+                                          color: Colors.grey,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        "₹${_getDiscountedPrice(item)}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: const Color.fromARGB(255, 7, 7, 7),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text("Are you sure?"),
+                                    content: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text("Do you want to add ${item["name"]} to your cart?"),
+                                        SizedBox(height: 5),
+                                        Row(
+                                          children: [
+                                            Image.network(
+                                              item["imageUrl"],
+                                              width: 50,
+                                              height: 50,
+                                              fit: BoxFit.cover,
+                                              errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                                            ),
+                                            SizedBox(width: 8),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  item["name"],
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "Price: ₹${_getDiscountedPrice(item)}",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14,
+                                                    color: const Color.fromARGB(255, 7, 7, 7),
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height: 8),
+                                      ],
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text("No"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(context).showSnackBar(
+
+                                            //adding the item to cart
+
+                                            SnackBar(
+                                              content: Text("${item["name"]} added to cart!"),
+                                              backgroundColor: Colors.green,
+                                              behavior: SnackBarBehavior.floating,
+                                            ),
+                                          );
+                                        },
+                                        child: Text("Yes"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              child: Text("ADD TO CART"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 4,
+                        left: 4,
+                        child: IconButton(
+                          icon: Icon(Icons.remove_circle, color: Colors.red),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Text("Remove Item"),
+                                content: Text("Are you sure you want to remove ${item["name"]}?"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text("Cancel"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        menuItems.remove(item);
+                                        filteredItems = menuItems.where((element) {
+                                          String query = _searchController.text.toLowerCase();
+                                          return element["name"].toLowerCase().contains(query) ||
+                                              element["category"].toLowerCase().contains(query);
+                                        }).toList();
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Remove", style: TextStyle(color: Colors.red)),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+          //   child: GridView.builder(
+          //     padding: EdgeInsets.all(8.0),
+          //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          //       crossAxisCount: 2,
+          //       childAspectRatio: 0.75,
+          //       crossAxisSpacing: 8.0,
+          //       mainAxisSpacing: 8.0,
+          //     ),
+          //     itemCount: filteredItems.length,
+          //     itemBuilder: (context, index) {
+          //       final item = filteredItems[index];
+          //       return Card(
+          //         child: Column(
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+                                          
+          //                     if (item["discount"] > 0)
+                                
+          //                       Align(
+          //                         alignment: Alignment.topRight,
+          //                         child: Container(
+          //                           width: 48,
+          //                           height: 24,
+          //                           margin: EdgeInsets.only(top: 8, right: 8),
+          //                           decoration: BoxDecoration(
+          //                             color: Colors.green,
+          //                             borderRadius: BorderRadius.circular(12),
+          //                           ),
+          //                           child: Center(
+          //                             child: Text(
+          //                               "${item["discount"]}% off",
+          //                               style: TextStyle(
+          //                                 color: Colors.white,
+          //                                 fontWeight: FontWeight.bold,
+          //                                 fontSize: 12,
+          //                               ),
+          //                             ),
+          //                           ),
+          //                         ),
+          //                       ),
+                                                 
+                                
+          //             ClipRRect(
+          //               borderRadius: BorderRadius.circular(8.0),
+          //               child: Image.network(
+          //                 item["imageUrl"],
+          //                 width: 150,
+          //                 height: 130,
+          //                 fit: BoxFit.cover,
+          //                 errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+          //               ),
+          //             ),
+          //             Padding(
+          //               padding: const EdgeInsets.all(8.0),
+          //               child: Column(
+          //                 crossAxisAlignment: CrossAxisAlignment.start,
+          //                 children: [
+          //                   Text(item["name"], 
+                            
+          //                   style: TextStyle(
+          //                     fontWeight: FontWeight.bold,
+          //                     fontSize: 16,
+                              
+          //                     )),
+          //                     SizedBox(height: 4),
+          //                   Text("Description: ${item["description"]}",
+          //                   style: TextStyle(
+          //                     fontSize: 12,
+          //                     color: Colors.grey[600],
+
+          //                   )),
+          //                   SizedBox(height: 4),
+
+          //                   Row(
+          //                     children: [
+          //                       Text("Price: "),
+          //                       Text(
+          //                         "₹${item["price"]}",
+          //                         style: TextStyle(
+          //                           decoration: TextDecoration.lineThrough,
+          //                           color: Colors.grey,
+          //                           fontSize: 14,
+          //                         ),
+          //                       ),
+          //                       SizedBox(width: 8),
+          //                       Text(
+          //                         "₹${_getDiscountedPrice(item)}",
+          //                         style: TextStyle(
+          //                           fontWeight: FontWeight.bold,
+          //                           fontSize: 16,
+          //                           color: const Color.fromARGB(255, 7, 7, 7),
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+
+          //                 ],
+          //               ),
+          //             ),
+          //             ElevatedButton(
+          //               onPressed: () {
+          //                   showDialog(
+          //                   context: context,
+          //                   builder: (context) => AlertDialog(
+          //                     title: Text("Are you sure?"),
+          //                     content: Column(
+          //                     mainAxisSize: MainAxisSize.min,
+          //                     children: [
+          //                       Text("Do you want to add ${item["name"]} to your cart?"),
+          //                       SizedBox(height: 5),
+          //                       Row(
+          //                       children: [
+          //                         Image.network(
+          //                         item["imageUrl"],
+          //                         width: 50,
+          //                         height: 50,
+          //                         fit: BoxFit.cover,
+          //                         errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+          //                         ),
+          //                         SizedBox(width: 8),
+          //                         Column(
+          //                         crossAxisAlignment: CrossAxisAlignment.start,
+          //                         children: [
+          //                           Text(
+          //                           item["name"],
+          //                           style: TextStyle(
+          //                             fontWeight: FontWeight.bold,
+          //                             fontSize: 16,
+          //                           ),
+          //                           ),
+          //                           Text(
+          //                           "Price: ₹${_getDiscountedPrice(item)}",
+          //                           style: TextStyle(
+          //                             fontWeight: FontWeight.bold,
+          //                             fontSize: 14,
+          //                             color: const Color.fromARGB(255, 7, 7, 7),
+          //                           ),
+          //                           )
+          //                         ],
+          //                         )
+          //                       ],
+          //                       ),
+          //                       SizedBox(height: 8), // Reduce this value to make the gap smaller
+          //                     ],
+          //                     ),
+          //                     actions: [
+          //                     TextButton(
+          //                       onPressed: () => Navigator.pop(context), // No
+          //                       child: Text("No"),
+          //                     ),
+          //                     TextButton(
+          //                       onPressed: () {
+          //                       Navigator.pop(context); // Close dialog
+
+          //                       // Add to cart functionality
+          //                       ScaffoldMessenger.of(context).showSnackBar(
+          //                         SnackBar(
+          //                         content: Text("${item["name"]} added to cart!"),
+          //                         backgroundColor: Colors.green,
+          //                         behavior: SnackBarBehavior.floating,
+          //                         ),
+          //                       );
+          //                       },
+          //                       child: Text("Yes"),
+          //                     ),
+          //                     ],
+          //                   ),
+          //                   );
+
+          //                 // Add to cart functionality
+                         
+                          
+          //               },
+          //               child: Text("ADD TO CART"),
+          //             ),
+          //           ],
+          //         ),
+          //       );
+          //     },
+          //   ),
           ),
         ],
       ),
     );
+  }
+  
+  _getDiscountedPrice(Map<String, dynamic> item) {
+
+    if (item["discount"] > 0) {
+      double discountAmount = item["price"] * (item["discount"] / 100);
+      return (item["price"] - discountAmount).toStringAsFixed(2);
+    } else {
+      return item["price"].toString();
+    }
   }
 }
