@@ -50,15 +50,13 @@ class Dashboard extends StatelessWidget {
       "rating": "4.5",
       "time": "10-15min",
       "price": "Rs.250",
-      "quantity": "1"
     },
       {
       "title": "Classic Pizza",
       "image": "assets/C8.jpg",
       "rating": "4.5",
       "time": "10-15min",
-      "price": "Rs.250",
-      "quantity": "1"
+      "price": "Rs.450",
     },
   ];
 
