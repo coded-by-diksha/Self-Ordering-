@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:my_app/pages/CartPage.dart';
+import 'package:my_app/pages/MenuCatPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -98,6 +100,8 @@ class Dashboard extends StatelessWidget {
                       ),
                     ),
                   ),
+
+
                   const SizedBox(width: 12),
                   IconButton(
                     icon: const Icon(Icons.notifications),
@@ -105,7 +109,15 @@ class Dashboard extends StatelessWidget {
                   ),
                   IconButton(
                     icon: const Icon(Icons.shopping_cart),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CartPage(),
+                        ),
+                      );
+
+                    },
                   ),
                 ],
               ),
@@ -260,7 +272,12 @@ class Dashboard extends StatelessWidget {
                             fontSize: 18, fontWeight: FontWeight.bold)),
                     TextButton(
                       onPressed: () {
-                        // View More click
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>  MenuPage(),
+                          ),
+                        );
                       },
                       child: const Text("View More"),
                     )
