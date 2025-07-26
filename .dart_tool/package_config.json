@@ -105,7 +105,7 @@
     },
     {
       "name": "esewa_flutter_sdk",
-      "rootUri": "../esewa_flutter_sdk/eSewa%20Flutter%20Sdk%20v2.5.0_20/esewa_flutter_sdk",
+      "rootUri": "../esewa_flutter_sdk/eSewa%20Flutter%20Sdk%202.4.2_19/eSewa%20Flutter%20Sdk%20v2.5.0_20/esewa_flutter_sdk",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -650,7 +650,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-07-26T07:12:19.050354Z",
+  "generated": "2025-07-26T07:23:00.796384Z",
   "generator": "pub",
   "generatorVersion": "3.6.0",
   "flutterRoot": "file:///C:/Users/Administrator/flutter/flutter",
