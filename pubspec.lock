@@ -140,11 +140,10 @@ packages:
   esewa_flutter_sdk:
     dependency: "direct main"
     description:
-      name: esewa_flutter_sdk
-      sha256: a71bf7b8095c0d013ef447d90c1a00747722da679dce786690721c94c7367b82
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
+      path: "C:\\Users\\Administrator\\Desktop\\spicebite new\\spicebite\\esewa_flutter_sdk\\eSewa Flutter Sdk v2.5.0_20\\esewa_flutter_sdk"
+      relative: false
+    source: path
+    version: "2.5.0+20"
   fake_async:
     dependency: transitive
     description:

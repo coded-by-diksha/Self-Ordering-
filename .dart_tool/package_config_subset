@@ -66,10 +66,6 @@ device_info_plus_platform_interface
 2.18
 file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/device_info_plus_platform_interface-7.0.2/
 file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/device_info_plus_platform_interface-7.0.2/lib/
-esewa_flutter_sdk
-2.12
-file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/esewa_flutter_sdk-2.0.1/
-file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/esewa_flutter_sdk-2.0.1/lib/
 fake_async
 2.12
 file:///C:/Users/Administrator/AppData/Local/Pub/Cache/hosted/pub.dev/fake_async-1.3.1/
@@ -398,6 +394,10 @@ spicebite
 3.0
 file:///C:/Users/Administrator/Desktop/spicebite%20new/spicebite/
 file:///C:/Users/Administrator/Desktop/spicebite%20new/spicebite/lib/
+esewa_flutter_sdk
+3.0
+file:///C:/Users/Administrator/Desktop/spicebite%20new/spicebite/esewa_flutter_sdk/eSewa%20Flutter%20Sdk%20v2.5.0_20/esewa_flutter_sdk/
+file:///C:/Users/Administrator/Desktop/spicebite%20new/spicebite/esewa_flutter_sdk/eSewa%20Flutter%20Sdk%20v2.5.0_20/esewa_flutter_sdk/lib/
 sky_engine
 3.2
 file:///C:/Users/Administrator/flutter/flutter/bin/cache/pkg/sky_engine/
