@@ -31,7 +31,10 @@ dependencies:
   url_launcher: ^6.2.1 # Added for launching URLs
   
   esewa_flutter_sdk:
-    path: ./esewa_flutter_sdk/eSewa Flutter Sdk 2.4.2_19/esewa_flutter_sdk
+    path: ./esewa_flutter_sdk/eSewa Flutter Sdk v2.5.0_20/esewa_flutter_sdk
+
+
+   
   http: ^1.1.0
 
   fonepay_flutter: ^1.0.0
