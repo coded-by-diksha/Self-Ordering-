@@ -140,8 +140,8 @@ packages:
   esewa_flutter_sdk:
     dependency: "direct main"
     description:
-      path: "C:\\Users\\Administrator\\Desktop\\spicebite new\\spicebite\\esewa_flutter_sdk\\eSewa Flutter Sdk v2.5.0_20\\esewa_flutter_sdk"
-      relative: false
+      path: "esewa_flutter_sdk/eSewa Flutter Sdk 2.4.2_19/eSewa Flutter Sdk v2.5.0_20/esewa_flutter_sdk"
+      relative: true
     source: path
     version: "2.5.0+20"
   fake_async:
